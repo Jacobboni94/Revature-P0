@@ -1,5 +1,11 @@
 package com.revature.pojo;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.Scanner;
+
 import com.revature.util.UserInterface;
 
 public class User implements UserInterface {
@@ -7,14 +13,42 @@ public class User implements UserInterface {
 	String username;
 	String password;
 
-	public void login() {
-		// TODO Auto-generated method stub
-
+	public User login() {
+		System.out.println("Please type in username: ");
+		String EmployeeUsernames = "D:\\Revature\\repos\\Revature-P0\\src\\main\\resources\\Employee_Usernames.dat";
+		String EmployeePasswords = "D:\\Revature\\repos\\Revature-P0\\src\\main\\resources\\Employee_Passwords.dat";
+		String CustomerUsernames = "D:\\Revature\\repos\\Revature-P0\\src\\main\\resources\\Customer_Usernames.dat";
+		String CustomerPasswords = "D:\\Revature\\repos\\Revature-P0\\src\\main\\resources\\Customer_Passwords.dat";
+		Reader reader = null;
+		Scanner in = new Scanner(System.in);
+		String inputUsername = in.next();
+		in.close();
+		return null;
 	}
 
 	public void register() {
 		// TODO Auto-generated method stub
 
+	}
+
+	private static boolean isInFile(String inputUsername, String filePath, Reader reader) {
+		String username = "";
+		try {
+			reader = new FileReader(filePath);
+			int data = reader.read();
+			while (data > 0 && (char) data != '\r') {
+				username += (char) data;
+				data = reader.read();
+			}
+		} catch (FileNotFoundException e1) {
+			// TODO file not found error message
+			e1.printStackTrace();
+		} catch (IOException e) {
+			// TODO io error message
+			e.printStackTrace();
+		}
+		
+		return false;
 	}
 
 	public User() {

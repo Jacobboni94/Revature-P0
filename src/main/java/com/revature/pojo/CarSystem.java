@@ -1,19 +1,24 @@
 package com.revature.pojo;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.List;
+import java.util.Scanner;
 
 import com.revature.util.SystemInterface;
 
-public class System implements SystemInterface{
+public class CarSystem implements SystemInterface {
 
-	List<Car> carLot;
+	private List<Car> carLot;
 
-	public System() {
+	public CarSystem() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public System(List<Car> carLot) {
+	public CarSystem(List<Car> carLot) {
 		super();
 		this.carLot = carLot;
 	}
@@ -47,7 +52,7 @@ public class System implements SystemInterface{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		System other = (System) obj;
+		CarSystem other = (CarSystem) obj;
 		if (carLot == null) {
 			if (other.carLot != null)
 				return false;
@@ -65,9 +70,6 @@ public class System implements SystemInterface{
 	@Override
 	public void endOtherOffers(Car car, Offer offer) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	
-	
 }

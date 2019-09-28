@@ -1,8 +1,10 @@
 package com.revature.util;
 
+import com.revature.pojo.User;
+
 public interface UserInterface {
 
-	void login();
+	User login();
 	
 	void register();
 	

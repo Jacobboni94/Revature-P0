@@ -40,25 +40,25 @@ public class Employee extends User implements EmployeeInterface {
 	@Override
 	public void addToLot(Car car) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void acceptOffer(Offer offer) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void rejectOffer(Offer offer) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void removeFromLot(Car car, List<Car> carLot) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -67,5 +67,4 @@ public class Employee extends User implements EmployeeInterface {
 		return null;
 	}
 
-	
 }
