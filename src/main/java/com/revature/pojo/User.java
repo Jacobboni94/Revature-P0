@@ -14,14 +14,11 @@ public class User implements UserInterface {
 	String password;
 
 	public User login() {
-		System.out.println("Please type in username: ");
-		String EmployeeUsernames = "D:\\Revature\\repos\\Revature-P0\\src\\main\\resources\\Employee_Usernames.dat";
-		String EmployeePasswords = "D:\\Revature\\repos\\Revature-P0\\src\\main\\resources\\Employee_Passwords.dat";
-		String CustomerUsernames = "D:\\Revature\\repos\\Revature-P0\\src\\main\\resources\\Customer_Usernames.dat";
-		String CustomerPasswords = "D:\\Revature\\repos\\Revature-P0\\src\\main\\resources\\Customer_Passwords.dat";
+		System.out.println("Please enter username: ");
 		Reader reader = null;
 		Scanner in = new Scanner(System.in);
 		String inputUsername = in.next();
+		
 		in.close();
 		return null;
 	}
@@ -31,13 +28,20 @@ public class User implements UserInterface {
 
 	}
 
-	private static boolean isInFile(String inputUsername, String filePath, Reader reader) {
+	private static boolean isInFile(String inputUsername, Reader reader) {
+		String EmployeeUsernames = "D:\\Revature\\repos\\Revature-P0\\src\\main\\resources\\Employee_Usernames.dat";
+		String EmployeePasswords = "D:\\Revature\\repos\\Revature-P0\\src\\main\\resources\\Employee_Passwords.dat";
+		String CustomerUsernames = "D:\\Revature\\repos\\Revature-P0\\src\\main\\resources\\Customer_Usernames.dat";
+		String CustomerPasswords = "D:\\Revature\\repos\\Revature-P0\\src\\main\\resources\\Customer_Passwords.dat";
 		String username = "";
 		try {
-			reader = new FileReader(filePath);
+			reader = new FileReader(EmployeeUsernames);
 			int data = reader.read();
-			while (data > 0 && (char) data != '\r') {
+			while (data > 0 ) {
 				username += (char) data;
+				if(username.equals(inputUsername)) {
+					System.out.println("please enter password: ");
+				}
 				data = reader.read();
 			}
 		} catch (FileNotFoundException e1) {
