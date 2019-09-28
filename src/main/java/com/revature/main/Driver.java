@@ -8,7 +8,7 @@ public class Driver {
 	public static void main(String[] args) {
 		CarSystem dealership = new CarSystem();
 		dealership.printMenu();
-		dealership.readInput();
+		dealership.readStartInput();
 	}
 
 }

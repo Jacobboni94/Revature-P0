@@ -7,31 +7,37 @@ import java.util.Scanner;
 
 import com.revature.util.LoggerUtil;
 
+import static com.revature.util.LoggerUtil.*;
+
 public class CarSystem extends Menu {
 
 	public CarSystem() {
 		super();
 	}
 
-	public void readInput() {
+	public void readStartInput() {
 		Scanner in = new Scanner(System.in);
 		while (true) {
-			String string = in.next();
+			String string = in.nextLine();
 			if (string.equals("1")) {
+				in.close();
+				System.out.println("login");
 				login();
 				break;
 			} else if (string.equals("2")) {
+				in.close();
+				System.out.println("register");
 				register();
 				break;
 			} else {
-				LoggerUtil.warn("Please type either 1 or 2");
+				warn("i/o error");
 			}
 		}
 		in.close();
 	}
 
 	private void login() {
-		//readFromFile();
+		readFromFile();
 	}
 
 	private void readFromFile() {
@@ -40,7 +46,7 @@ public class CarSystem extends Menu {
 	}
 
 	private void register() {
-		//WriteToDataFile();
+		WriteToDataFile();
 	}
 
 	private void WriteToDataFile() {
