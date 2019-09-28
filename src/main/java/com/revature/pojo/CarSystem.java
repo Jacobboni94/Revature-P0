@@ -1,75 +1,62 @@
 package com.revature.pojo;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Reader;
-import java.util.List;
 import java.util.Scanner;
 
-import com.revature.util.SystemInterface;
+import com.revature.util.LoggerUtil;
 
-public class CarSystem implements SystemInterface {
-
-	private List<Car> carLot;
+public class CarSystem extends Menu {
 
 	public CarSystem() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public CarSystem(List<Car> carLot) {
-		super();
-		this.carLot = carLot;
+	public void readInput() {
+		Scanner in = new Scanner(System.in);
+		while (true) {
+			String string = in.next();
+			if (string.equals("1")) {
+				login();
+				break;
+			} else if (string.equals("2")) {
+				register();
+				break;
+			} else {
+				LoggerUtil.warn("Please type either 1 or 2");
+			}
+		}
+		in.close();
 	}
 
-	public List<Car> getCarLot() {
-		return carLot;
+	private void login() {
+		//readFromFile();
 	}
 
-	public void setCarLot(List<Car> carLot) {
-		this.carLot = carLot;
+	private void readFromFile() {
+		String filename = "D:\\Revature\\repos\\Revature-P0\\src\\main\\resources\\userData.dat";
+		Scanner sc = new Scanner(filename);
 	}
 
-	@Override
-	public String toString() {
-		return "System [carLot=" + carLot + "]";
+	private void register() {
+		//WriteToDataFile();
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((carLot == null) ? 0 : carLot.hashCode());
-		return result;
+	private void WriteToDataFile() {
+		String filename = "D:\\Revature\\repos\\Revature-P0\\src\\main\\resources\\userData.dat";
+		try {
+			BufferedWriter out = new BufferedWriter(new FileWriter(filename));
+			formNewLine();
+		} catch (IOException e) {
+			LoggerUtil.error("i/o error");
+			e.printStackTrace();
+		}
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		CarSystem other = (CarSystem) obj;
-		if (carLot == null) {
-			if (other.carLot != null)
-				return false;
-		} else if (!carLot.equals(other.carLot))
-			return false;
-		return true;
-	}
-
-	@Override
-	public double CalcMonthlyPayment(Car car) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void endOtherOffers(Car car, Offer offer) {
+	private String formNewLine() {
 		// TODO Auto-generated method stub
 
+		return "";
 	}
 }
