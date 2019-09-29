@@ -10,7 +10,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import com.revature.pojo.Lot;
-import com.revature.pojo.User;
 
 public class LotDAOSerialization implements LotDAO {
 
@@ -75,5 +74,10 @@ public class LotDAOSerialization implements LotDAO {
 		}
 		return ret;
 	}
-
+	
+	@Override
+	public void updateLot(Lot lot) {
+		String fileName = lot.getOwner().getUsername() + ".lot";
+	}
+	
 }

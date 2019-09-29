@@ -135,7 +135,7 @@ public class CarSystem extends Menu {
 		} else if (string.equals("5")) {
 			// view cars on lot
 		} else if (string.equals("3")) {
-			// view cars on lot
+			removeCar();
 		} else if (string.equals("4")) {
 			// view sold cars
 		} else if (string.equals("5")) {
@@ -169,6 +169,13 @@ public class CarSystem extends Menu {
 			}
 		}
 		dealerLot.getCars().add(newCar);
+		lotDAO.createLot(dealerLot);
 	}
 
+	private void removeCar() {
+		System.out.println("enter the vin");
+		String vin = in.nextLine();
+		
+	}
+	
 }
