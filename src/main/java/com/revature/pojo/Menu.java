@@ -1,8 +1,5 @@
 package com.revature.pojo;
 
-import com.revature.util.LoggerUtil;
-import com.revature.pojo.CarSystem;
-
 public class Menu {
 
 	public void printMenu() {
@@ -10,5 +7,4 @@ public class Menu {
 		System.out.println("2. register");
 
 	}
-
 }
