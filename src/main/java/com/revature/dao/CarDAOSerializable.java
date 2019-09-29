@@ -9,17 +9,21 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import com.revature.pojo.User;
+import com.revature.pojo.Car;
 
-public class UserDAOSerialization implements UserDAO {
+public class CarDAOSerializable implements CarDAO {
+
+	public CarDAOSerializable() {
+		super();
+	}
 
 	@Override
-	public void createUser(User u) {
+	public void createCar(Car c) {
 		String fileName = "";
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
-		if (u.getUsername() != null) {
-			fileName = u.getUsername() + ".usr";
+		if (c.getVin() != null) {
+			fileName = c.getVin() + ".usr";
 		} else {
 			error("null username");
 		}
@@ -27,7 +31,7 @@ public class UserDAOSerialization implements UserDAO {
 		try {
 			fos = new FileOutputStream(fileName);
 			oos = new ObjectOutputStream(fos);
-			oos.writeObject(u);
+			oos.writeObject(c);
 		} catch (FileNotFoundException e) {
 
 			e.printStackTrace();
@@ -55,19 +59,19 @@ public class UserDAOSerialization implements UserDAO {
 	}
 
 	@Override
-	public User readUser(String username) {
+	public Car readCar(String vin) {
 
-		String fileName = username + ".usr";
+		String fileName = vin + ".car";
 
-		User ret = null;
+		Car ret = null;
 
 		// try with resources
 		try (FileInputStream fis = new FileInputStream(fileName); ObjectInputStream ois = new ObjectInputStream(fis);) {
-			ret = (User) ois.readObject();
+			ret = (Car) ois.readObject();
 		} catch (IOException e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 		}
 
 		return ret;

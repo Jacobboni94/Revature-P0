@@ -9,17 +9,22 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import com.revature.pojo.Lot;
 import com.revature.pojo.User;
 
-public class UserDAOSerialization implements UserDAO {
+public class LotDAOSerialization implements LotDAO {
+
+	public LotDAOSerialization() {
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
-	public void createUser(User u) {
+	public void createLot(Lot lot) {
 		String fileName = "";
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
-		if (u.getUsername() != null) {
-			fileName = u.getUsername() + ".usr";
+		if (lot.getOwner() != null) {
+			fileName = lot.getOwner() + ".lot";
 		} else {
 			error("null username");
 		}
@@ -27,7 +32,7 @@ public class UserDAOSerialization implements UserDAO {
 		try {
 			fos = new FileOutputStream(fileName);
 			oos = new ObjectOutputStream(fos);
-			oos.writeObject(u);
+			oos.writeObject(lot);
 		} catch (FileNotFoundException e) {
 
 			e.printStackTrace();
@@ -55,21 +60,20 @@ public class UserDAOSerialization implements UserDAO {
 	}
 
 	@Override
-	public User readUser(String username) {
+	public Lot readLot(String owner) {
 
-		String fileName = username + ".usr";
+		String fileName = owner + ".lot";
 
-		User ret = null;
+		Lot ret = null;
 
 		// try with resources
 		try (FileInputStream fis = new FileInputStream(fileName); ObjectInputStream ois = new ObjectInputStream(fis);) {
-			ret = (User) ois.readObject();
+			ret = (Lot) ois.readObject();
 		} catch (IOException e) {
 			// e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			// e.printStackTrace();
 		}
-
 		return ret;
 	}
 

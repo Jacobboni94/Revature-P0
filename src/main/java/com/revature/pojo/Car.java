@@ -1,9 +1,12 @@
 package com.revature.pojo;
 
-public class Car {
-	
+import java.io.Serializable;
+
+public class Car implements Serializable {
+
 	private String vin;
 	private double price;
+	private Lot lot;
 
 	public Car() {
 		super();
@@ -23,6 +26,14 @@ public class Car {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public Lot getLot() {
+		return lot;
+	}
+
+	public void setLot(Lot lot) {
+		this.lot = lot;
 	}
 
 }

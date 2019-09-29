@@ -8,13 +8,13 @@ public class Menu {
 		System.out.println("3: exit");
 
 	}
-	
+
 	public void printCustMenu() {
 		System.out.println("1: view my cars");
 		System.out.println("2: view cars for sale");
 		System.out.println("3: exit");
 	}
-	
+
 	public void printEmpMenu() {
 		System.out.println("1: add car to lot");
 		System.out.println("2: view open offers");

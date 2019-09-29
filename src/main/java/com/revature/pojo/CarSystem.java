@@ -2,16 +2,21 @@ package com.revature.pojo;
 
 import java.util.Scanner;
 
+import com.revature.dao.LotDAO;
+import com.revature.dao.LotDAOSerialization;
 import com.revature.dao.UserDAO;
 import com.revature.dao.UserDAOSerialization;
 
 public class CarSystem extends Menu {
 
-	public static UserDAO userDAO = new UserDAOSerialization();
+	private static UserDAO userDAO = new UserDAOSerialization();
 	private Scanner in = new Scanner(System.in);
+	private Lot dealerLot = new Lot();
+	private LotDAO lotDAO = new LotDAOSerialization();
 
 	public CarSystem() {
 		super();
+		this.dealerLot = lotDAO.readLot("dealerLot.lot");
 	}
 
 	public User readStartInput() {
@@ -26,11 +31,9 @@ public class CarSystem extends Menu {
 				System.out.println("register");
 				u = register();
 				break;
-			}
-			else if(string.equals("3")) {
+			} else if (string.equals("3")) {
 				System.exit(0);
-			}
-			else {
+			} else {
 				System.out.println("please press 1 or 2");
 				;
 			}
@@ -55,8 +58,7 @@ public class CarSystem extends Menu {
 			String inputPassword = in.nextLine();
 			if (u.getPassword().equals(inputPassword)) {
 				return u;
-			}
-			else {
+			} else {
 				System.out.println("wrong password");
 			}
 		}
@@ -78,18 +80,16 @@ public class CarSystem extends Menu {
 		System.out.println("enter a password");
 		String newPassword = in.nextLine();
 		newUser.setPassword(newPassword);
-		while(true) {
+		while (true) {
 			System.out.println("employee or customer");
 			String newType = in.nextLine();
-			if("employee".equals(newType)) {
+			if ("employee".equals(newType)) {
 				newUser.setType("employee");
 				break;
-			}
-			else if("customer".equals(newType)) {
+			} else if ("customer".equals(newType)) {
 				newUser.setType("customer");
 				break;
-			}
-			else {
+			} else {
 				System.out.println("please enter employee or customer");
 				System.out.println("this is case sensitive");
 			}
@@ -108,42 +108,47 @@ public class CarSystem extends Menu {
 
 	public void readCustomerInput() {
 		String string = in.nextLine();
-		if(string.equals("1")) {
-			//view my cars
-		}
-		else if(string.equals("2")) {
-			//view cars on sale
-		}
-		else if(string.equals("3")){
+		if (string.equals("1")) {
+			// view my cars
+		} else if (string.equals("2")) {
+			// view cars on sale
+		} else if (string.equals("3")) {
 			System.exit(0);
 		}
-		
 	}
 
 	public void readEmpInput() {
 		String string = in.nextLine();
-		if(string.equals("1")) {
-			//add car to lot
-		}
-		
-		else if(string.equals("2")) {
-			//view open offers
-		}
-		else if(string.equals("5")) {
-			//view cars on lot
-		}
-		else if(string.equals("3")) {
-			
-		}
-		else if(string.equals("4")) {
-			//view sold cars
-		}
-		else if(string.equals("5")) {
+		if (string.equals("1")) {
+			// add car to lot
+			// dealerLot.getCars().add(new Car());
+			addCar();
+		} else if (string.equals("2")) {
+			// view open offers
+		} else if (string.equals("5")) {
+			// view cars on lot
+		} else if (string.equals("3")) {
+			// view cars on lot
+		} else if (string.equals("4")) {
+			// view sold cars
+		} else if (string.equals("5")) {
 			System.exit(0);
-		}
-		else {
+		} else {
 			System.out.println("please enter 1 through 5");
 		}
-		
 	}
+
+	private void addCar() {
+		String newVin = "";
+		while (true) {
+			System.out.println("enter the car's vin");
+			newVin = in.nextLine();
+			System.out.println("is " + newVin + " the corect vin?");
+			if(in.nextLine().equals("yes")) {
+				break;
+			}
+		}
+
+	}
+
 }

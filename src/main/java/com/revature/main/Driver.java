@@ -9,15 +9,12 @@ public class Driver {
 		CarSystem dealership = new CarSystem();
 		dealership.printStartMenu();
 		User u = dealership.readStartInput();
-		if("customer".equals(u.getType())) {
+		if ("customer".equals(u.getType())) {
 			dealership.printCustMenu();
 			dealership.readCustomerInput();
-		}
-		else{
+		} else {
 			dealership.printEmpMenu();
 			dealership.readEmpInput();
 		}
-		
 	}
-
 }
