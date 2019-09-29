@@ -18,7 +18,7 @@ public class UserDAOSerialization implements UserDAO {
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
 		if (u.getUsername() != null) {
-			fileName = u.getUsername() + ".dat";
+			fileName = u.getUsername() + ".usr";
 		} else {
 			error("null username");
 		}
@@ -56,7 +56,7 @@ public class UserDAOSerialization implements UserDAO {
 	@Override
 	public User readUser(String username) {
 
-		String fileName = username + ".dat";
+		String fileName = username + ".usr";
 
 		User ret = null;
 
@@ -64,9 +64,9 @@ public class UserDAOSerialization implements UserDAO {
 		try (FileInputStream fis = new FileInputStream(fileName); ObjectInputStream ois = new ObjectInputStream(fis);) {
 			ret = (User) ois.readObject();
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 		return ret;
