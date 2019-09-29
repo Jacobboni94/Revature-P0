@@ -32,7 +32,6 @@ public class LotDAOSerialization implements LotDAO {
 			oos = new ObjectOutputStream(fos);
 			oos.writeObject(lot);
 		} catch (FileNotFoundException e) {
-
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();

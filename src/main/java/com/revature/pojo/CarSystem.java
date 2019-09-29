@@ -3,6 +3,8 @@ package com.revature.pojo;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.revature.dao.CarDAO;
+import com.revature.dao.CarDAOSerializable;
 import com.revature.dao.LotDAO;
 import com.revature.dao.LotDAOSerialization;
 import com.revature.dao.UserDAO;
@@ -11,9 +13,10 @@ import com.revature.dao.UserDAOSerialization;
 public class CarSystem extends Menu {
 
 	private static UserDAO userDAO = new UserDAOSerialization();
+	private static LotDAO lotDAO = new LotDAOSerialization();
+	private static CarDAO carDAO = new CarDAOSerializable();
 	private Scanner in = new Scanner(System.in);
 	private Lot dealerLot = new Lot();
-	private LotDAO lotDAO = new LotDAOSerialization();
 
 	public CarSystem() {
 		super();
@@ -178,7 +181,7 @@ public class CarSystem extends Menu {
 	private void removeCar() {
 		System.out.println("enter the vin");
 		String vin = in.nextLine();
-		
+		carDAO.deleteCar(vin);
 	}
 	
 }

@@ -1,8 +1,8 @@
 package com.revature.pojo;
 
-public class Offers {
+public class Offer {
 
-	public Offers() {
+	public Offer() {
 		// TODO Auto-generated constructor stub
 	}
 

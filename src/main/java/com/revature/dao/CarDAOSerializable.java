@@ -2,6 +2,7 @@ package com.revature.dao;
 
 import static com.revature.util.LoggerUtil.error;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -77,8 +78,10 @@ public class CarDAOSerializable implements CarDAO {
 		return ret;
 	}
 	
-	public void deleteCar(Car car) {
-		
+	@Override
+	public void deleteCar(String filename) {
+		File file = new File(filename);
+		file.delete();
 	}
 
 }

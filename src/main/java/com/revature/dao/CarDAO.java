@@ -7,4 +7,6 @@ public interface CarDAO {
 	public void createCar(Car car);
 	
 	public Car readCar(String vin);
+	
+	public void deleteCar(String Filename);
 }
