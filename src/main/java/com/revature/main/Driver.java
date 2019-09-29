@@ -10,11 +10,15 @@ public class Driver {
 		dealership.printStartMenu();
 		User u = dealership.readStartInput();
 		if ("customer".equals(u.getType())) {
-			dealership.printCustMenu();
-			dealership.readCustomerInput();
+			while (true) {
+				dealership.printCustMenu();
+				dealership.readCustomerInput();
+			}
 		} else {
-			dealership.printEmpMenu();
-			dealership.readEmpInput();
+			while (true) {
+				dealership.printEmpMenu();
+				dealership.readEmpInput();
+			}
 		}
 	}
 }

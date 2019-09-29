@@ -118,11 +118,14 @@ public class CarSystem extends Menu {
 	public void readCustomerInput() {
 		String string = in.nextLine();
 		if (string.equals("1")) {
-			// view my cars
+			// TODO view my cars
 		} else if (string.equals("2")) {
-			// view cars on sale
+			// TODO view cars on sale
 		} else if (string.equals("3")) {
 			System.exit(0);
+		}
+		else {
+			System.out.println("please enter 1 through 3");
 		}
 	}
 
@@ -131,14 +134,14 @@ public class CarSystem extends Menu {
 		if (string.equals("1")) {
 			addCar();
 		} else if (string.equals("2")) {
-			// view open offers
-		} else if (string.equals("5")) {
-			// view cars on lot
+			// TODO view open offers
 		} else if (string.equals("3")) {
-			removeCar();
+			// TODO view cars on lot
 		} else if (string.equals("4")) {
-			// view sold cars
+			removeCar();
 		} else if (string.equals("5")) {
+			//TODO view sold cars
+		} else if (string.equals("6")) {
 			System.exit(0);
 		} else {
 			System.out.println("please enter 1 through 5");

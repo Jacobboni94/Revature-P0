@@ -76,5 +76,9 @@ public class CarDAOSerializable implements CarDAO {
 
 		return ret;
 	}
+	
+	public void deleteCar(Car car) {
+		
+	}
 
 }

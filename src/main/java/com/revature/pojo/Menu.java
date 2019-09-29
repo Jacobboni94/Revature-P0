@@ -19,7 +19,8 @@ public class Menu {
 		System.out.println("1: add car to lot");
 		System.out.println("2: view open offers");
 		System.out.println("3: view cars on lot");
-		System.out.println("4: view sold cars");
-		System.out.println("5: exit");
+		System.out.println("4: remove car from lot");
+		System.out.println("5: view sold cars");
+		System.out.println("6: exit");
 	}
 }

@@ -74,10 +74,9 @@ public class LotDAOSerialization implements LotDAO {
 		}
 		return ret;
 	}
-	
+
 	@Override
 	public void updateLot(Lot lot) {
-		String fileName = lot.getOwner().getUsername() + ".lot";
 	}
-	
+
 }
