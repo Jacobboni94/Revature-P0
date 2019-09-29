@@ -61,7 +61,8 @@ public class UserDAOSerialization implements UserDAO {
 		User ret = null;
 
 		// try with resources
-		try (FileInputStream fis = new FileInputStream(fileName); ObjectInputStream ois = new ObjectInputStream(fis);) {
+		try (FileInputStream fis = new FileInputStream(fileName); 
+				ObjectInputStream ois = new ObjectInputStream(fis);) {
 			ret = (User) ois.readObject();
 		} catch (IOException e) {
 			//e.printStackTrace();

@@ -1,14 +1,12 @@
 package com.revature.pojo;
 
-import static com.revature.util.LoggerUtil.warn;
-
 import java.util.Scanner;
 
 import com.revature.dao.UserDAO;
 import com.revature.dao.UserDAOSerialization;
 
 public class CarSystem extends Menu {
-	
+
 	public static UserDAO userDAO = new UserDAOSerialization();
 	private Scanner in = new Scanner(System.in);
 
@@ -16,32 +14,56 @@ public class CarSystem extends Menu {
 		super();
 	}
 
-	public void readStartInput() {
+	public User readStartInput() {
+		User u = new User();
 		while (true) {
 			String string = in.nextLine();
 			if (string.equals("1")) {
 				System.out.println("login");
-				login();
+				u = login();
 				break;
 			} else if (string.equals("2")) {
 				System.out.println("register");
-				register();
+				u = register();
 				break;
+			}
+			else if(string.equals("3")) {
+				System.exit(0);
+			}
+			else {
+				System.out.println("please press 1 or 2");
+				;
+			}
+		}
+		return u;
+	}
+
+	private User login() {
+		User u = new User();
+		while (true) {
+			System.out.println("please enter your username");
+			String inputUsername = in.nextLine();
+			u = userDAO.readUser(inputUsername);
+			if (u == null) {
+				System.out.println("wrong username");
 			} else {
-				warn("i/o error");
+				break;
+			}
+		}
+		while (true) {
+			System.out.println("please enter your password");
+			String inputPassword = in.nextLine();
+			if (u.getPassword().equals(inputPassword)) {
+				return u;
+			}
+			else {
+				System.out.println("wrong password");
 			}
 		}
 	}
 
-	private User login() {
-		System.out.println("Please enter username");
-		String username = in.nextLine();
-		User user = userDAO.readUser(username);
-		return user;
-	}
-
-	private void register() {
-		User newUser = new Customer();
+	private User register() {
+		User newUser = new User();
 		String newUsername;
 		while (true) {
 			System.out.println("enter a user name");
@@ -56,15 +78,72 @@ public class CarSystem extends Menu {
 		System.out.println("enter a password");
 		String newPassword = in.nextLine();
 		newUser.setPassword(newPassword);
-		in.close();
+		while(true) {
+			System.out.println("employee or customer");
+			String newType = in.nextLine();
+			if("employee".equals(newType)) {
+				newUser.setType("employee");
+				break;
+			}
+			else if("customer".equals(newType)) {
+				newUser.setType("customer");
+				break;
+			}
+			else {
+				System.out.println("please enter employee or customer");
+				System.out.println("this is case sensitive");
+			}
+		}
 		userDAO.createUser(newUser);
+		return newUser;
 	}
 
 	private boolean UsernameTaken(String username) {
 		User u = userDAO.readUser(username);
-		if(u != null) {
+		if (u != null) {
 			return true;
 		}
 		return false;
+	}
+
+	public void readCustomerInput() {
+		String string = in.nextLine();
+		if(string.equals("1")) {
+			//view my cars
+		}
+		else if(string.equals("2")) {
+			//view cars on sale
+		}
+		else if(string.equals("3")){
+			System.exit(0);
+		}
+		
+	}
+
+	public void readEmpInput() {
+		String string = in.nextLine();
+		if(string.equals("1")) {
+			//add car to lot
+		}
+		
+		else if(string.equals("2")) {
+			//view open offers
+		}
+		else if(string.equals("5")) {
+			//view cars on lot
+		}
+		else if(string.equals("3")) {
+			
+		}
+		else if(string.equals("4")) {
+			//view sold cars
+		}
+		else if(string.equals("5")) {
+			System.exit(0);
+		}
+		else {
+			System.out.println("please enter 1 through 5");
+		}
+		
 	}
 }
