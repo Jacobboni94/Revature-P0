@@ -24,11 +24,10 @@ public class LotDAOSerialization implements LotDAO {
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
 		if (lot.getOwner() != null) {
-			fileName = lot.getOwner() + ".lot";
+			fileName = lot.getOwner().getUsername() + ".lot";
 		} else {
 			error("null username");
 		}
-
 		try {
 			fos = new FileOutputStream(fileName);
 			oos = new ObjectOutputStream(fos);

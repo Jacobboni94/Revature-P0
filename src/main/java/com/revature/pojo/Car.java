@@ -24,7 +24,10 @@ public class Car implements Serializable {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(double price) throws OutOfRangeException {
+		if(price < 0) {
+			throw new OutOfRangeException();
+		}
 		this.price = price;
 	}
 

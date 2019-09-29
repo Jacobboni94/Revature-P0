@@ -11,3 +11,5 @@
 2019-09-28 22:15:07 WARN  root:18 - i/o error
 2019-09-28 23:07:38 WARN  root:18 - i/o error
 2019-09-28 23:07:41 WARN  root:18 - i/o error
+2019-09-29 16:17:36 ERROR root:14 - null username
+2019-09-29 16:38:16 ERROR root:14 - null username

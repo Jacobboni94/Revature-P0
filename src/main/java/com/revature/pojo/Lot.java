@@ -1,8 +1,9 @@
 package com.revature.pojo;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Lot {
+public class Lot implements Serializable{ 
 
 	private List<Car> cars;
 	private User owner;

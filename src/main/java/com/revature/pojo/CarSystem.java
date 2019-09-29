@@ -1,5 +1,6 @@
 package com.revature.pojo;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.revature.dao.LotDAO;
@@ -16,7 +17,15 @@ public class CarSystem extends Menu {
 
 	public CarSystem() {
 		super();
-		this.dealerLot = lotDAO.readLot("dealerLot.lot");
+		if(dealerLot.getCars() == null) {
+			dealerLot.setCars(new ArrayList<Car>());
+			User dealer = new User();
+			dealer.setUsername("dealerLot");
+			dealerLot.setOwner(dealer);
+			lotDAO.createLot(dealerLot);
+		}else {
+			dealerLot = lotDAO.readLot("dealerLot.lot");
+		}
 	}
 
 	public User readStartInput() {
@@ -120,8 +129,6 @@ public class CarSystem extends Menu {
 	public void readEmpInput() {
 		String string = in.nextLine();
 		if (string.equals("1")) {
-			// add car to lot
-			// dealerLot.getCars().add(new Car());
 			addCar();
 		} else if (string.equals("2")) {
 			// view open offers
@@ -140,15 +147,28 @@ public class CarSystem extends Menu {
 
 	private void addCar() {
 		String newVin = "";
+		Car newCar = new Car();
+		double newPrice = 0.0;
 		while (true) {
 			System.out.println("enter the car's vin");
 			newVin = in.nextLine();
 			System.out.println("is " + newVin + " the corect vin?");
-			if(in.nextLine().equals("yes")) {
+			if (in.nextLine().equals("yes")) {
 				break;
 			}
 		}
-
+		newCar.setVin(newVin);
+		while (true) {
+			System.out.println("enter the car's price");
+			newPrice = in.nextDouble();
+			try {
+				newCar.setPrice(newPrice);
+				break;
+			} catch (OutOfRangeException e) {
+				System.out.println("price must be greater than 0.0");
+			}
+		}
+		dealerLot.getCars().add(newCar);
 	}
 
 }
