@@ -9,6 +9,7 @@ import com.revature.dao.LotDAO;
 import com.revature.dao.LotDAOSerialization;
 import com.revature.dao.UserDAO;
 import com.revature.dao.UserDAOSerialization;
+import com.revature.exception.OutOfRangeException;
 
 public class CarSystem extends Menu {
 
@@ -116,12 +117,11 @@ public class CarSystem extends Menu {
 		return false;
 	}
 
-	public void readCustomerInput() {
+	public void readCustomerInput(User u) {
 		String string = in.nextLine();
 		if (string.equals("1")) {
-			// TODO view my cars
+			viewMyCars(u);
 		} else if (string.equals("2")) {
-			// TODO view cars on sale
 			viewCarsOnSale();
 		} else if (string.equals("3")) {
 			System.exit(0);
@@ -131,8 +131,14 @@ public class CarSystem extends Menu {
 		}
 	}
 
-	private void viewCarsOnSale() {
+	private void viewMyCars(User u) {
 		// TODO Auto-generated method stub
+		String name = u.getUsername();
+		Lot myLot = lotDAO.readLot(name);
+		System.out.println(myLot.getCars().toString());
+	}
+
+	private void viewCarsOnSale() {
 		System.out.println(dealerLot.getCars().toString());
 	}
 
@@ -141,18 +147,28 @@ public class CarSystem extends Menu {
 		if (string.equals("1")) {
 			addCar();
 		} else if (string.equals("2")) {
-			// TODO view open offers
+			viewOpenOffers();
 		} else if (string.equals("3")) {
 			viewCarsOnSale();
 		} else if (string.equals("4")) {
 			removeCar();
 		} else if (string.equals("5")) {
-			//TODO view sold cars
+			viewPayments();
 		} else if (string.equals("6")) {
 			System.exit(0);
 		} else {
 			System.out.println("please enter 1 through 5");
 		}
+	}
+
+	private void viewOpenOffers() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void viewPayments() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void addCar() {

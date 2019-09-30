@@ -2,6 +2,8 @@ package com.revature.pojo;
 
 import java.io.Serializable;
 
+import com.revature.exception.OutOfRangeException;
+
 public class Car implements Serializable {
 
 	private String vin;

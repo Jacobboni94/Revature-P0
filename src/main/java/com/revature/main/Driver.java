@@ -12,7 +12,7 @@ public class Driver {
 		if ("customer".equals(u.getType())) {
 			while (true) {
 				dealership.printCustMenu();
-				dealership.readCustomerInput();
+				dealership.readCustomerInput(u);
 			}
 		} else {
 			while (true) {
