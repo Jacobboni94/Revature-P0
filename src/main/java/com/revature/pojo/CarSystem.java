@@ -1,5 +1,7 @@
 package com.revature.pojo;
 
+import static com.revature.util.LoggerUtil.info;
+
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -8,16 +10,18 @@ import com.revature.dao.CarDAO;
 import com.revature.dao.CarDAOSerializable;
 import com.revature.dao.LotDAO;
 import com.revature.dao.LotDAOSerialization;
+import com.revature.dao.OfferDAO;
+import com.revature.dao.OfferDAOSerializable;
 import com.revature.dao.UserDAO;
 import com.revature.dao.UserDAOSerialization;
 import com.revature.exception.OutOfRangeException;
-import static com.revature.util.LoggerUtil.*;
 
 public class CarSystem extends Menu {
 
 	private static UserDAO userDAO = new UserDAOSerialization();
 	private static LotDAO lotDAO = new LotDAOSerialization();
 	private static CarDAO carDAO = new CarDAOSerializable();
+	private static OfferDAO offerDAO = new OfferDAOSerializable();
 	private Scanner in = new Scanner(System.in);
 	private Lot dealerLot;
 
@@ -133,7 +137,7 @@ public class CarSystem extends Menu {
 		} else if (string.equals("3")) {
 			viewRemainingPayments();
 		} else if (string.equals("4")) {
-			makeOffer();
+			makeOffer(u);
 		} else if (string.equals("5")) {
 			System.exit(0);
 		} else {
@@ -160,7 +164,7 @@ public class CarSystem extends Menu {
 		}
 	}
 
-	public void makeOffer() {
+	public void makeOffer(User u) {
 		Offer newOffer = new Offer();
 		String vin = "";
 		Car car = new Car();
@@ -170,17 +174,32 @@ public class CarSystem extends Menu {
 			vin = in.nextLine();
 			try {
 				car = carDAO.readCar(vin);
-				break;
+				if(existingOffer(u, car)) {
+					System.out.println("you've already make an offer for this car");
+				}
+				else {
+					break;
+				}
 			} catch (FileNotFoundException e) {
 				info("file not found");
 				System.out.println("car not found");
 			}
 		}
 		newOffer.setCar(car);
+		newOffer.setOfferID(vin + "|" + u.getUsername());
 		System.out.println("this car costs " + car.getPrice());
 		System.out.println("enter your offer amount");
 		double newAmount = in.nextDouble();
 		newOffer.setAmount(newAmount);
+	}
+
+	private boolean existingOffer(User user, Car car) {
+		try {
+			Offer existingOffer = offerDAO.readOffer(car.getVin() + "|" + user.getUsername());
+			return true;
+		}catch(FileNotFoundException e) {
+			return false;
+		}
 	}
 
 	public void viewRemainingPayments() {
@@ -211,7 +230,7 @@ public class CarSystem extends Menu {
 	public void addCar(Lot lot) {
 		String newVin = "";
 		Car newCar = new Car();
-		newCar.setLot(lot);
+		newCar.setLot(lot.getOwner().getUsername());
 		double newPrice = 0.0;
 		while (true) {
 			System.out.println("enter the car's vin");

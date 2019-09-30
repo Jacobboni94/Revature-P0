@@ -12,9 +12,9 @@ import java.io.ObjectOutputStream;
 
 import com.revature.pojo.Offer;
 
-public class OfferDAOSerialization implements OfferDAO {
+public class OfferDAOSerializable implements OfferDAO {
 
-	public OfferDAOSerialization() {
+	public OfferDAOSerializable() {
 		// TODO Auto-generated constructor stub
 	}
 

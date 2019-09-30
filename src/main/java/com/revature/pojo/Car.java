@@ -9,7 +9,7 @@ public class Car implements Serializable {
 	private String vin;
 	private double price;
 	private double remainingPrice;
-	private Lot lot;
+	private String lot;
 
 	public Car() {
 		super();
@@ -34,11 +34,11 @@ public class Car implements Serializable {
 		this.price = price;
 	}
 
-	public Lot getLot() {
+	public String getLot() {
 		return lot;
 	}
 
-	public void setLot(Lot lot) {
+	public void setLot(String lot) {
 		this.lot = lot;
 	}
 

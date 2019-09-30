@@ -9,7 +9,6 @@ public class Offer implements Serializable{
 	private String OfferID;
 
 	public Offer() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Car getCar() {
