@@ -10,29 +10,29 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import com.revature.pojo.Car;
+import com.revature.pojo.Offer;
 
-public class CarDAOSerializable implements CarDAO {
+public class OfferDAOSerialization implements OfferDAO {
 
-	public CarDAOSerializable() {
-		super();
+	public OfferDAOSerialization() {
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void createCar(Car c) {
+	public void createOffer(Offer offer) {
 		String fileName = "";
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
-		if (c.getVin() != null) {
-			fileName = c.getVin() + ".car";
+		if (offer.getOfferID() != null) {
+			fileName = offer.getOfferID() + ".ofr";
 		} else {
-			error("null username");
+			error("null offer");
 		}
 
 		try {
 			fos = new FileOutputStream(fileName);
 			oos = new ObjectOutputStream(fos);
-			oos.writeObject(c);
+			oos.writeObject(offer);
 		} catch (FileNotFoundException e) {
 
 			e.printStackTrace();
@@ -60,15 +60,15 @@ public class CarDAOSerializable implements CarDAO {
 	}
 
 	@Override
-	public Car readCar(String vin) throws FileNotFoundException {
+	public Offer readOffer(String offerID) throws FileNotFoundException {
 
-		String fileName = vin + ".car";
+		String fileName = offerID + ".ofr";
 
-		Car ret = null;
+		Offer ret = null;
 
 		// try with resources
 		try (FileInputStream fis = new FileInputStream(fileName); ObjectInputStream ois = new ObjectInputStream(fis);) {
-			ret = (Car) ois.readObject();
+			ret = (Offer) ois.readObject();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -79,8 +79,8 @@ public class CarDAOSerializable implements CarDAO {
 	}
 
 	@Override
-	public void deleteCar(String filename) {
-		File file = new File(filename + ".car");
+	public void deleteOffer(String OfferID) {
+		File file = new File(OfferID + ".ofr");
 		file.delete();
 	}
 

@@ -1,5 +1,6 @@
 package com.revature.pojo;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,6 +11,7 @@ import com.revature.dao.LotDAOSerialization;
 import com.revature.dao.UserDAO;
 import com.revature.dao.UserDAOSerialization;
 import com.revature.exception.OutOfRangeException;
+import static com.revature.util.LoggerUtil.*;
 
 public class CarSystem extends Menu {
 
@@ -21,8 +23,11 @@ public class CarSystem extends Menu {
 
 	public CarSystem() {
 		super();
+	}
+
+	public void systemStart() {
 		dealerLot = lotDAO.readLot("dealerLot");
-		if(dealerLot == null) {
+		if (dealerLot == null) {
 			User dealer = new User("dealerLot", "admin", "employee");
 			dealerLot = new Lot(dealer);
 			dealerLot.setCars(new ArrayList<Car>());
@@ -52,7 +57,7 @@ public class CarSystem extends Menu {
 		return u;
 	}
 
-	private User login() {
+	public User login() {
 		User u = new User();
 		while (true) {
 			System.out.println("please enter your username");
@@ -75,7 +80,7 @@ public class CarSystem extends Menu {
 		}
 	}
 
-	private User register() {
+	public User register() {
 		User newUser = new User();
 		String newUsername;
 		while (true) {
@@ -99,6 +104,8 @@ public class CarSystem extends Menu {
 				break;
 			} else if ("customer".equals(newType)) {
 				newUser.setType("customer");
+				Lot newLot = new Lot(newUser);
+				lotDAO.createLot(newLot);
 				break;
 			} else {
 				System.out.println("please enter employee or customer");
@@ -109,7 +116,7 @@ public class CarSystem extends Menu {
 		return newUser;
 	}
 
-	private boolean UsernameTaken(String username) {
+	public boolean UsernameTaken(String username) {
 		User u = userDAO.readUser(username);
 		if (u != null) {
 			return true;
@@ -124,34 +131,26 @@ public class CarSystem extends Menu {
 		} else if (string.equals("2")) {
 			viewCarsOnSale();
 		} else if (string.equals("3")) {
+			viewRemainingPayments();
+		} else if (string.equals("4")) {
+			makeOffer();
+		} else if (string.equals("5")) {
 			System.exit(0);
-		}
-		else {
+		} else {
 			System.out.println("please enter 1 through 3");
 		}
-	}
-
-	private void viewMyCars(User u) {
-		// TODO Auto-generated method stub
-		String name = u.getUsername();
-		Lot myLot = lotDAO.readLot(name);
-		System.out.println(myLot.getCars().toString());
-	}
-
-	private void viewCarsOnSale() {
-		System.out.println(dealerLot.getCars().toString());
 	}
 
 	public void readEmpInput() {
 		String string = in.nextLine();
 		if (string.equals("1")) {
-			addCar();
+			addCar(dealerLot);
 		} else if (string.equals("2")) {
 			viewOpenOffers();
 		} else if (string.equals("3")) {
 			viewCarsOnSale();
 		} else if (string.equals("4")) {
-			removeCar();
+			removeCar(dealerLot);
 		} else if (string.equals("5")) {
 			viewPayments();
 		} else if (string.equals("6")) {
@@ -161,20 +160,58 @@ public class CarSystem extends Menu {
 		}
 	}
 
-	private void viewOpenOffers() {
-		// TODO Auto-generated method stub
-		
+	public void makeOffer() {
+		Offer newOffer = new Offer();
+		String vin = "";
+		Car car = new Car();
+		while (true) {
+			System.out.println("which car is the offer for?");
+			System.out.println("enter vin");
+			vin = in.nextLine();
+			try {
+				car = carDAO.readCar(vin);
+				break;
+			} catch (FileNotFoundException e) {
+				info("file not found");
+				System.out.println("car not found");
+			}
+		}
+		newOffer.setCar(car);
+		System.out.println("this car costs " + car.getPrice());
+		System.out.println("enter your offer amount");
+		double newAmount = in.nextDouble();
+		newOffer.setAmount(newAmount);
 	}
 
-	private void viewPayments() {
+	public void viewRemainingPayments() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	private void addCar() {
+	public void viewMyCars(User u) {
+		String name = u.getUsername();
+		Lot myLot = lotDAO.readLot(name);
+		System.out.println(myLot.getCars().toString());
+	}
+
+	public void viewCarsOnSale() {
+		System.out.println(dealerLot.getCars().toString());
+	}
+
+	public void viewOpenOffers() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void viewPayments() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void addCar(Lot lot) {
 		String newVin = "";
 		Car newCar = new Car();
-		newCar.setLot(dealerLot);
+		newCar.setLot(lot);
 		double newPrice = 0.0;
 		while (true) {
 			System.out.println("enter the car's vin");
@@ -196,17 +233,26 @@ public class CarSystem extends Menu {
 			}
 		}
 		carDAO.createCar(newCar);
-		dealerLot.getCars().add(newCar);
-		lotDAO.createLot(dealerLot);
+		lot.getCars().add(newCar);
+		lotDAO.createLot(lot);
 	}
 
-	private void removeCar() {
-		System.out.println("enter the vin");
-		String vin = in.nextLine();
-		Car car = carDAO.readCar(vin);
-		dealerLot.getCars().remove(car);
-		carDAO.deleteCar(vin);
-		lotDAO.createLot(dealerLot);
+	public void removeCar(Lot lot) {
+		while (true) {
+			System.out.println("enter the vin");
+			String vin = in.nextLine();
+			Car car = new Car();
+			try {
+				car = carDAO.readCar(vin);
+				break;
+			} catch (FileNotFoundException e) {
+				System.out.println("there is no car with vin " + vin);
+				e.printStackTrace();
+			}
+			lot.getCars().remove(car);
+			carDAO.deleteCar(vin);
+			lotDAO.createLot(lot);
+		}
 	}
-	
+
 }

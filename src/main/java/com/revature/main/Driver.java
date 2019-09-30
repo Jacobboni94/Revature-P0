@@ -7,6 +7,7 @@ public class Driver {
 
 	public static void main(String[] args) {
 		CarSystem dealership = new CarSystem();
+		dealership.systemStart();
 		dealership.printStartMenu();
 		User u = dealership.readStartInput();
 		if ("customer".equals(u.getType())) {

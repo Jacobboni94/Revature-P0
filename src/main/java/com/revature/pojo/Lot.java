@@ -1,9 +1,10 @@
 package com.revature.pojo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Lot implements Serializable{ 
+public class Lot implements Serializable{
 
 	private List<Car> cars;
 	private User owner;
@@ -14,6 +15,7 @@ public class Lot implements Serializable{
 	
 	public Lot(User user) {
 		this.owner = user;
+		this.cars = new ArrayList<Car>();
 	}
 
 	public List<Car> getCars() {

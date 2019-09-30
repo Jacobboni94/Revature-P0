@@ -8,6 +8,7 @@ public class Car implements Serializable {
 
 	private String vin;
 	private double price;
+	private double remainingPrice;
 	private Lot lot;
 
 	public Car() {
@@ -39,6 +40,14 @@ public class Car implements Serializable {
 
 	public void setLot(Lot lot) {
 		this.lot = lot;
+	}
+
+	public double getRemainingPrice() {
+		return remainingPrice;
+	}
+
+	public void setRemainingPrice(double remainingPrice) {
+		this.remainingPrice = remainingPrice;
 	}
 
 	@Override
