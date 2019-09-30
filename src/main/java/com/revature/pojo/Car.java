@@ -39,4 +39,9 @@ public class Car implements Serializable {
 		this.lot = lot;
 	}
 
+	@Override
+	public String toString() {
+		return "Car [vin=" + vin + ", price=" + price + ", lot=" + lot + "]";
+	}
+
 }

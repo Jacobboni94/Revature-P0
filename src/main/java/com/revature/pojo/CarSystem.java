@@ -16,18 +16,16 @@ public class CarSystem extends Menu {
 	private static LotDAO lotDAO = new LotDAOSerialization();
 	private static CarDAO carDAO = new CarDAOSerializable();
 	private Scanner in = new Scanner(System.in);
-	private Lot dealerLot = new Lot();
+	private Lot dealerLot;
 
 	public CarSystem() {
 		super();
-		if(dealerLot.getCars() == null) {
+		dealerLot = lotDAO.readLot("dealerLot");
+		if(dealerLot == null) {
+			User dealer = new User("dealerLot", "admin", "employee");
+			dealerLot = new Lot(dealer);
 			dealerLot.setCars(new ArrayList<Car>());
-			User dealer = new User();
-			dealer.setUsername("dealerLot");
-			dealerLot.setOwner(dealer);
 			lotDAO.createLot(dealerLot);
-		}else {
-			dealerLot = lotDAO.readLot("dealerLot.lot");
 		}
 	}
 
@@ -124,12 +122,18 @@ public class CarSystem extends Menu {
 			// TODO view my cars
 		} else if (string.equals("2")) {
 			// TODO view cars on sale
+			viewCarsOnSale();
 		} else if (string.equals("3")) {
 			System.exit(0);
 		}
 		else {
 			System.out.println("please enter 1 through 3");
 		}
+	}
+
+	private void viewCarsOnSale() {
+		// TODO Auto-generated method stub
+		System.out.println(dealerLot.getCars().toString());
 	}
 
 	public void readEmpInput() {
@@ -139,7 +143,7 @@ public class CarSystem extends Menu {
 		} else if (string.equals("2")) {
 			// TODO view open offers
 		} else if (string.equals("3")) {
-			// TODO view cars on lot
+			viewCarsOnSale();
 		} else if (string.equals("4")) {
 			removeCar();
 		} else if (string.equals("5")) {
@@ -154,6 +158,7 @@ public class CarSystem extends Menu {
 	private void addCar() {
 		String newVin = "";
 		Car newCar = new Car();
+		newCar.setLot(dealerLot);
 		double newPrice = 0.0;
 		while (true) {
 			System.out.println("enter the car's vin");
@@ -174,6 +179,7 @@ public class CarSystem extends Menu {
 				System.out.println("price must be greater than 0.0");
 			}
 		}
+		carDAO.createCar(newCar);
 		dealerLot.getCars().add(newCar);
 		lotDAO.createLot(dealerLot);
 	}
@@ -181,7 +187,10 @@ public class CarSystem extends Menu {
 	private void removeCar() {
 		System.out.println("enter the vin");
 		String vin = in.nextLine();
+		Car car = carDAO.readCar(vin);
+		dealerLot.getCars().remove(car);
 		carDAO.deleteCar(vin);
+		lotDAO.createLot(dealerLot);
 	}
 	
 }

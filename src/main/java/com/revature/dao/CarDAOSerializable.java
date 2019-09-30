@@ -24,7 +24,7 @@ public class CarDAOSerializable implements CarDAO {
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
 		if (c.getVin() != null) {
-			fileName = c.getVin() + ".usr";
+			fileName = c.getVin() + ".car";
 		} else {
 			error("null username");
 		}
@@ -80,7 +80,7 @@ public class CarDAOSerializable implements CarDAO {
 	
 	@Override
 	public void deleteCar(String filename) {
-		File file = new File(filename);
+		File file = new File(filename + ".car");
 		file.delete();
 	}
 
