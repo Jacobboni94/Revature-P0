@@ -147,10 +147,10 @@ public class CarSystem extends Menu {
 			makeOffer(u);
 		} else if (string.equals("5")) {
 			makePayment(u);
-		} else if(string.equals("6")) {
+		} else if (string.equals("6")) {
+			in.close();
 			System.exit(0);
-		}
-		else {
+		} else {
 			System.out.println("please enter 1 through 3");
 		}
 	}
@@ -170,6 +170,7 @@ public class CarSystem extends Menu {
 		} else if (string.equals("6")) {
 			viewPayments();
 		} else if (string.equals("7")) {
+			in.close();
 			System.exit(0);
 		}
 
@@ -215,14 +216,36 @@ public class CarSystem extends Menu {
 
 	public void viewRemainingPayments() {
 		// TODO Auto-generated method stub
-		
+		System.out.println("which car?");
+		String vin = in.nextLine();
+
 	}
-	
+
 	public void makePayment(User u) {
-		System.out.println("how much will you pay");
-		double amount = in.nextDouble();
+		Car car;
+		System.out.println("which car are you paying for?");
+		System.out.println("enter the vin");
+		String vin = in.nextLine();
+		try {
+			car = carDAO.readCar(vin);
+		} catch (FileNotFoundException e) {
+			System.out.println("wrong vin");
+			e.printStackTrace();
+			return;
+		}
+		while (true) {
+			System.out.println("how much will you pay");
+			double amount = in.nextDouble();
+			try {
+				car.setPrice(car.getPrice() - amount);
+				break;
+			} catch (OutOfRangeException e) {
+				System.out.println("the car only costs " + car.getPrice());
+				e.printStackTrace();
+			}
+		}
 		Payment newPayment = new Payment();
-		//TODO 
+		// TODO
 	}
 
 	public void viewMyCars(User u) {
@@ -273,8 +296,10 @@ public class CarSystem extends Menu {
 		File file = new File("D:\\Revature\\repos\\Revature-P0\\");
 		File[] files = file.listFiles();
 		Stream<File> fileStream = Arrays.stream(files);
-		fileStream.filter(f -> f.getName().contains(".ofr")).forEach(f -> {f.delete();});
-		}
+		fileStream.filter(f -> f.getName().contains(".ofr")).forEach(f -> {
+			f.delete();
+		});
+	}
 
 	public void rejectOffer() {
 		String offerID;
@@ -294,7 +319,9 @@ public class CarSystem extends Menu {
 		File file = new File("D:\\Revature\\repos\\Revature-P0\\");
 		File[] files = file.listFiles();
 		Stream<File> fileStream = Arrays.stream(files);
-		fileStream.filter(f -> f.getName().contains(".pay")).forEach(f -> {System.out.println(f.toString());});
+		fileStream.filter(f -> f.getName().contains(".pay")).forEach(f -> {
+			System.out.println(f.toString());
+		});
 	}
 
 	public void addNewCar(Lot lot) {
