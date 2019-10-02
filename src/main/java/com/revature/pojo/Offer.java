@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class Offer implements Serializable{
 	
 	private Car car;
+	private User user;
 	private double amount;
 	private String OfferID;
 
@@ -33,6 +34,14 @@ public class Offer implements Serializable{
 
 	public void setOfferID(String offerID) {
 		OfferID = offerID;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	

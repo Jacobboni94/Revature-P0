@@ -2,9 +2,16 @@ package com.revature.pojo;
 
 import static com.revature.util.LoggerUtil.info;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 import com.revature.dao.CarDAO;
 import com.revature.dao.CarDAOSerializable;
@@ -139,8 +146,11 @@ public class CarSystem extends Menu {
 		} else if (string.equals("4")) {
 			makeOffer(u);
 		} else if (string.equals("5")) {
+			makePayment(u);
+		} else if(string.equals("6")) {
 			System.exit(0);
-		} else {
+		}
+		else {
 			System.out.println("please enter 1 through 3");
 		}
 	}
@@ -148,18 +158,22 @@ public class CarSystem extends Menu {
 	public void readEmpInput() {
 		String string = in.nextLine();
 		if (string.equals("1")) {
-			addCar(dealerLot);
+			addNewCar(dealerLot);
 		} else if (string.equals("2")) {
-			viewOpenOffers();
+			acceptOffer();
 		} else if (string.equals("3")) {
-			viewCarsOnSale();
+			rejectOffer();
 		} else if (string.equals("4")) {
-			removeCar(dealerLot);
+			viewCarsOnSale();
 		} else if (string.equals("5")) {
-			viewPayments();
+			removeCar(dealerLot);
 		} else if (string.equals("6")) {
+			viewPayments();
+		} else if (string.equals("7")) {
 			System.exit(0);
-		} else {
+		}
+
+		else {
 			System.out.println("please enter 1 through 5");
 		}
 	}
@@ -174,10 +188,9 @@ public class CarSystem extends Menu {
 			vin = in.nextLine();
 			try {
 				car = carDAO.readCar(vin);
-				if(existingOffer(u, car)) {
+				if (existingOffer(u, car)) {
 					System.out.println("you've already make an offer for this car");
-				}
-				else {
+				} else {
 					break;
 				}
 			} catch (FileNotFoundException e) {
@@ -186,25 +199,30 @@ public class CarSystem extends Menu {
 			}
 		}
 		newOffer.setCar(car);
-		newOffer.setOfferID(vin + "|" + u.getUsername());
+		newOffer.setOfferID(vin + "-" + u.getUsername());
 		System.out.println("this car costs " + car.getPrice());
 		System.out.println("enter your offer amount");
 		double newAmount = in.nextDouble();
 		newOffer.setAmount(newAmount);
+		offerDAO.createOffer(newOffer);
 	}
 
 	private boolean existingOffer(User user, Car car) {
-		try {
-			Offer existingOffer = offerDAO.readOffer(car.getVin() + "|" + user.getUsername());
-			return true;
-		}catch(FileNotFoundException e) {
-			return false;
-		}
+		String string = "D:\\Revature\\repos\\Revature-P0\\" + user.getUsername() + "-" + car.getVin() + ".ofr";
+		Path filename = Paths.get(string);
+		return !Files.notExists(filename, LinkOption.NOFOLLOW_LINKS);
 	}
 
 	public void viewRemainingPayments() {
 		// TODO Auto-generated method stub
-
+		
+	}
+	
+	public void makePayment(User u) {
+		System.out.println("how much will you pay");
+		double amount = in.nextDouble();
+		Payment newPayment = new Payment();
+		//TODO 
 	}
 
 	public void viewMyCars(User u) {
@@ -217,17 +235,69 @@ public class CarSystem extends Menu {
 		System.out.println(dealerLot.getCars().toString());
 	}
 
-	public void viewOpenOffers() {
-		// TODO Auto-generated method stub
+	public void acceptOffer() {
+		String offerID;
+		while (true) {
+			System.out.println("Which offer would you like to accept");
+			offerID = in.nextLine();
+			try {
+				Offer offer = offerDAO.readOffer(offerID);
+				Car soldCar = offer.getCar();
+				soldCar.setPrice(offer.getAmount());
+				User newOwner = offer.getUser();
+				addToUserLot(newOwner, soldCar);
+				deleteOtherOffers(offer);
+			} catch (FileNotFoundException e) {
+				break;
+			} catch (OutOfRangeException e) {
+				info("out of range exception");
+			}
+		}
+	}
 
+	private void addToUserLot(User newOwner, Car soldCar) {
+		String string = "D:\\Revature\\repos\\Revature-P0\\" + newOwner.getUsername() + ".lot";
+		Path filename = Paths.get(string);
+		Lot lot;
+		if (Files.notExists(filename, LinkOption.NOFOLLOW_LINKS)) {
+			lot = new Lot(newOwner);
+			lot.getCars().add(soldCar);
+		} else {
+			lot = lotDAO.readLot(newOwner.getUsername() + ".lot");
+			lot.getCars().add(soldCar);
+		}
+		lotDAO.createLot(lot);
+	}
+
+	private void deleteOtherOffers(Offer offer) {
+		File file = new File("D:\\Revature\\repos\\Revature-P0\\");
+		File[] files = file.listFiles();
+		Stream<File> fileStream = Arrays.stream(files);
+		fileStream.filter(f -> f.getName().contains(".ofr")).forEach(f -> {f.delete();});
+		}
+
+	public void rejectOffer() {
+		String offerID;
+		while (true) {
+			System.out.println("Which offer would you like to reject");
+			offerID = in.nextLine();
+			try {
+				offerDAO.readOffer(offerID);
+				offerDAO.deleteOffer(offerID);
+			} catch (FileNotFoundException e) {
+				break;
+			}
+		}
 	}
 
 	public void viewPayments() {
-		// TODO Auto-generated method stub
-
+		File file = new File("D:\\Revature\\repos\\Revature-P0\\");
+		File[] files = file.listFiles();
+		Stream<File> fileStream = Arrays.stream(files);
+		fileStream.filter(f -> f.getName().contains(".pay")).forEach(f -> {System.out.println(f.toString());});
 	}
 
-	public void addCar(Lot lot) {
+	public void addNewCar(Lot lot) {
 		String newVin = "";
 		Car newCar = new Car();
 		newCar.setLot(lot.getOwner().getUsername());

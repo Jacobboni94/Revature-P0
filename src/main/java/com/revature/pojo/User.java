@@ -3,6 +3,7 @@ package com.revature.pojo;
 import java.io.Serializable;
 
 public class User implements Serializable {
+	
 	private String username;
 	private String password;
 	protected String type;

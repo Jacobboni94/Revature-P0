@@ -15,7 +15,6 @@ import com.revature.pojo.Offer;
 public class OfferDAOSerializable implements OfferDAO {
 
 	public OfferDAOSerializable() {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
