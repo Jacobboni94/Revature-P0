@@ -23,8 +23,8 @@ public class Menu {
 		System.out.println("2: accept an offer");
 		System.out.println("3: reject an offer");
 		System.out.println("4: view cars on sale");
-		System.out.println("4: remove car from lot");
-		System.out.println("5: view payments");
-		System.out.println("6: exit");
+		System.out.println("5: remove car from lot");
+		System.out.println("6: view Payments");
+		System.out.println("7: exit");
 	}
 }

@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -19,6 +20,8 @@ import com.revature.dao.LotDAO;
 import com.revature.dao.LotDAOSerialization;
 import com.revature.dao.OfferDAO;
 import com.revature.dao.OfferDAOSerializable;
+import com.revature.dao.PaymentDAO;
+import com.revature.dao.PaymentDAOSerialization;
 import com.revature.dao.UserDAO;
 import com.revature.dao.UserDAOSerialization;
 import com.revature.exception.OutOfRangeException;
@@ -29,6 +32,7 @@ public class CarSystem extends Menu {
 	private static LotDAO lotDAO = new LotDAOSerialization();
 	private static CarDAO carDAO = new CarDAOSerializable();
 	private static OfferDAO offerDAO = new OfferDAOSerializable();
+	private static PaymentDAO paymentDAO = new PaymentDAOSerialization();
 	private Scanner in = new Scanner(System.in);
 	private Lot dealerLot;
 
@@ -172,10 +176,8 @@ public class CarSystem extends Menu {
 		} else if (string.equals("7")) {
 			in.close();
 			System.exit(0);
-		}
-
-		else {
-			System.out.println("please enter 1 through 5");
+		} else {
+			System.out.println("please enter 1 through 7");
 		}
 	}
 
@@ -223,6 +225,7 @@ public class CarSystem extends Menu {
 
 	public void makePayment(User u) {
 		Car car;
+		double amount;
 		System.out.println("which car are you paying for?");
 		System.out.println("enter the vin");
 		String vin = in.nextLine();
@@ -233,18 +236,14 @@ public class CarSystem extends Menu {
 			e.printStackTrace();
 			return;
 		}
-		while (true) {
-			System.out.println("how much will you pay");
-			double amount = in.nextDouble();
-			try {
-				car.setPrice(car.getPrice() - amount);
-				break;
-			} catch (OutOfRangeException e) {
-				System.out.println("the car only costs " + car.getPrice());
-				e.printStackTrace();
-			}
-		}
+		System.out.println("how much will you pay");
+		amount = in.nextDouble();
 		Payment newPayment = new Payment();
+		newPayment.setAmount(amount);
+		newPayment.setCar(car);
+		newPayment.setPaymentTime(LocalDate.now());
+		newPayment.setRemainingAmount(car.getPrice() - amount);
+		paymentDAO.createPayment(newPayment);
 		// TODO
 	}
 
@@ -320,7 +319,8 @@ public class CarSystem extends Menu {
 		File[] files = file.listFiles();
 		Stream<File> fileStream = Arrays.stream(files);
 		fileStream.filter(f -> f.getName().contains(".pay")).forEach(f -> {
-			System.out.println(f.toString());
+			System.out.println(f.getName());
+			System.out.println(paymentDAO.readPayment(f.getName().substring(0, f.getName().length()-4)).getAmount());
 		});
 	}
 
